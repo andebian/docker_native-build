@@ -1,8 +1,8 @@
 # DO NOT EDIT!!! GENERATED FROM Dockerfile.template.
-FROM vicamo/debian:buster-armhf
+FROM vicamo/debian:-armhf
 
-ENV LAARID_USER=laarid
-ENV LAARID_HOME=/home/${LAARID_USER}
+ENV ANDEBIAN_USER=andebian
+ENV ANDEBIAN_HOME=/home/${ANDEBIAN_USER}
 
 RUN apt-get update -qq \
 	&& apt-get upgrade -y \
@@ -21,22 +21,22 @@ RUN apt-get update -qq \
 		lintian \
 		sudo
 
-RUN echo "deb [allow-insecure=yes] http://dl.bintray.com/laarid/debian buster main" | \
+RUN echo "deb [allow-insecure=yes] http://dl.bintray.com/andebian/debian  main" | \
 		tee /etc/apt/sources.list.d/bintray.list; \
 	(echo "Package: *"; echo "Pin: origin \"dl.bintray.com\""; echo "Pin-Priority: 1000") | \
 		tee /etc/apt/preferences.d/bintray.pref; \
 	apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 379CE192D401AB61; \
 	apt-get update -qq
 
-RUN useradd --comment 'LAARiD Development Account' \
-		--home ${LAARID_HOME} --create-home \
+RUN useradd --comment 'Andebian Development Account' \
+		--home ${ANDEBIAN_HOME} --create-home \
 		--shell /bin/bash \
-		${LAARID_USER} \
-	&& (echo "${LAARID_USER}:laarid" | chpasswd) \
-	&& adduser ${LAARID_USER} sudo \
-	&& (echo "${LAARID_USER} ALL=NOPASSWD: ALL" > /etc/sudoers.d/laarid) \
-	&& chmod 0440 /etc/sudoers.d/laarid
+		${ANDEBIAN_USER} \
+	&& (echo "${ANDEBIAN_USER}:andebian" | chpasswd) \
+	&& adduser ${ANDEBIAN_USER} sudo \
+	&& (echo "${ANDEBIAN_USER} ALL=NOPASSWD: ALL" > /etc/sudoers.d/andebian) \
+	&& chmod 0440 /etc/sudoers.d/andebian
 
-VOLUME ["${LAARID_HOME}"]
-WORKDIR ${LAARID_HOME}
-USER ${LAARID_USER}
+VOLUME ["${ANDEBIAN_HOME}"]
+WORKDIR ${ANDEBIAN_HOME}
+USER ${ANDEBIAN_USER}
